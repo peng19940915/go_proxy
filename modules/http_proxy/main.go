@@ -16,11 +16,18 @@ func prepare() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
 }
+
+var http, auth *string
+var genAuth *bool
+
 func init() {
 	prepare()
 	cfg := flag.String("c", "cfg.json", "configuration file")
 	version := flag.Bool("v", false, "show version")
 	help := flag.Bool("h", false, "help")
+	http = flag.String("http", ":8080", "proxy listen addr")
+	auth = flag.String("auth", "", "basic credentials(username:password)")
+	genAuth = flag.Bool("genAuth", false, "generate credentials for auth")
 	flag.Parse()
 
 	handleVersion(*version)
@@ -30,10 +37,7 @@ func init() {
 }
 
 func main() {
-	http := flag.String("http", ":8080", "proxy listen addr")
-	auth := flag.String("auth", "", "basic credentials(username:password)")
-	genAuth := flag.Bool("genAuth", false, "generate credentials for auth")
-	flag.Parse()
+
 	server := proxy.NewServer(*http, *auth, *genAuth)
 	server.Start()
 
