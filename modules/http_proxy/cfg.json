@@ -1,0 +1,9 @@
+{
+  "log":{
+    "logLevel": "debug",
+    "logPath": "logs",
+    "fileName": "alarm.log",
+    "maxAge": 7,
+    "rotationTime": 1
+  }
+}
