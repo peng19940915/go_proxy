@@ -56,9 +56,9 @@ func (c *conn) serve() {
 	}
 
 	// build bidirectional-streams
-	logrus.Info("begin tunnel", c.rwc.RemoteAddr(), "<->", remote)
+	// logrus.Info("begin tunnel", c.rwc.RemoteAddr(), "<->", remote)
 	c.tunnel(remoteConn)
-	logrus.Info("stop tunnel", c.rwc.RemoteAddr(), "<->", remote)
+	// logrus.Info("stop tunnel", c.rwc.RemoteAddr(), "<->", remote)
 }
 
 // getClientInfo parse client request header to get some information:
@@ -138,8 +138,8 @@ func (c *conn) tunnel(remoteConn net.Conn) {
 		_, err := c.brc.WriteTo(remoteConn)
 		if err != nil {
 			logrus.Warnf("write data to server falied, detail: %s", err.Error())
+			_ = remoteConn.Close()
 		}
-		_ = remoteConn.Close()
 	}()
 	_, err := io.Copy(c.rwc, remoteConn)
 	if err != nil {
